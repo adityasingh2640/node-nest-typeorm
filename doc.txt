@@ -1,0 +1,44 @@
+ Pipe --> Controller --> Service --> Repository
+
+1. Genrating nest project 
+    nest new message(project-name)
+2. Genrating module
+    nest generate module message(module-name)
+3. Generating controller
+    nest generate controller message --flat
+4. Route
+    we are using decorator to define various class, methods and params
+    @Get, @Controller, @Param, @Body, @Post('/xyz')
+     @Get()
+    listMessage(){
+        return 'Get List!';
+    }
+    @Post()
+    createMessage(@Body() body:any){
+        return body;
+    }
+    @Get('/:id')
+    getMessage(@Param('id') id:string){
+        return id;
+    }
+5.Pipe - use for validating the data coming through request
+    ValidationPipe : in-built feature of pipe, which is a module and can be imported fron @nest/common
+    DTO are basicaally used to validate request body. 
+        export class CreateMessageDTO{
+            @IsNotEmpty() // decorator
+            @IsString()
+            content:string;
+        }
+        Use for specific route @UsePipes(new ValidationPipe())
+        app.useGlobalPipes(new ValidationPipe()); use for Global
+    It have typically two usecase
+        1. Transform : use to tranform data into another form (i.e string to int)
+        2. Validation : evaludates and throw exception if validation fails
+    We have in built 9 pipes and also create custom validator
+
+6. Learn more about Dependencies Injection
+7. Interceptor : Use for modifing incoming and outgoing request
+    Ex: Excluding password from outgoing request 
+    UseInterceptors(ClassSerializerInterceptor) this is Nest base approach , but downside is we have to apply for every request
+
+    CUSTOM Interceptor : check file serialize.interceptor.ts
