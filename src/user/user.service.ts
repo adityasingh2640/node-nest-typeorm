@@ -12,6 +12,9 @@ export class UserService {
         return this.repo.save(user);
     }
     findOne(id: number) {
+        if(!id){
+            throw new NotFoundException('Please sign in or sign up');
+        }
         return this.repo.findOneBy({ id });
     }
     find(email: string) {

@@ -42,3 +42,7 @@
     UseInterceptors(ClassSerializerInterceptor) this is Nest base approach , but downside is we have to apply for every request
 
     CUSTOM Interceptor : check file serialize.interceptor.ts
+8. Custom decorator : check file current-user.decorator.ts
+    these decorator don't work with DI container so , class Instance can be access or injected, In order to get a 
+    decorator we need to create a custom interceptor (current-user.interceptor.ts) and inside the context of custom interceptor we can pass or attach
+    class instance
