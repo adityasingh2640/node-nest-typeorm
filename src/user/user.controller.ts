@@ -1,18 +1,22 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query,UseInterceptors,ClassSerializerInterceptor } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user-interceptor.dto';
+import { AuthService } from './dtos/auth.service';
 
 @Controller('auth')
 @Serialize(UserDto)// Custom Interceptor using custom Decorator
 export class UserController {
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private authService: AuthService) { }
     @Post('/signup')
     createUser(@Body() body: CreateUserDto) {
-        const User = this.userService.create(body.email, body.password);
-        return User;
+        return this.authService.signup(body.email,body.password);
+    }
+    @Post('/signin')
+    signin(@Body() body: CreateUserDto) {
+        return this.authService.signin(body.email,body.password);
     }
    // @UseInterceptors(ClassSerializerInterceptor) // Default Nest interceptor
     @Get('/:id')
