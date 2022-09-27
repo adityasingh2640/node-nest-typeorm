@@ -2,8 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { randomBytes, scrypt as _scrypt } from "crypto";
 import { promisify } from "util";
 import { UserService } from "../user.service";
+import { getHashedPassword } from "../../utils/genericUtils";
 
-const scrypt = promisify(_scrypt)
+const scrypt = promisify(_scrypt);
 @Injectable()
 export class AuthService {
     constructor(private userService: UserService) { }
@@ -15,9 +16,7 @@ export class AuthService {
         }
         // Hash user password
         // Generate a salt
-        const salt = randomBytes(8).toString('hex'); // 16 Char or num will be generated
-        const hash = (await scrypt(password, salt, 32)) as Buffer;
-        const result = salt + '.' + hash.toString('hex');
+       let result = await getHashedPassword(password);
         const userInstance = await this.userService.create(email, result);
         return userInstance;
     }

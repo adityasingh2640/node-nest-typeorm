@@ -8,40 +8,44 @@ import { AuthService } from './dtos/auth.service';
 import { User } from './user.entity';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { AuthGuard } from './guards/auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@Controller('auth')
+@ApiBearerAuth()
+@ApiTags('Auth')
 @Serialize(UserDto)// Custom Interceptor using custom Decorator
+@Controller('auth')
+
 export class UserController {
     constructor(private userService: UserService, private authService: AuthService) { }
     @Post('/signup')
-    async createUser(@Body() body: CreateUserDto , @Session() session:any) {
-        const user =  await this.authService.signup(body.email,body.password);
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signup(body.email, body.password);
         session.userId = user.id;
         return user
     }
     @Post('/signin')
-    async signin(@Body() body: CreateUserDto, @Session() session:any) {
-        const user =  await this.authService.signin(body.email,body.password);
+    async signin(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.signin(body.email, body.password);
         session.userId = user.id;
         return user
     }
     @Get('/whoamI')
     @UseGuards(AuthGuard)
-    whoamI(@CurrentUser() user:User) {
-        if(user){
+    whoamI(@CurrentUser() user: User) {
+        if (user) {
             return user;
         }
         throw new NotFoundException('Please log in first !');
     }
     @Post('/signOut')
-    signOut(@Session() session:any){
+    signOut(@Session() session: any) {
         session.userId = null;
     }
-   // @UseInterceptors(ClassSerializerInterceptor) // Default Nest interceptor
+    // @UseInterceptors(ClassSerializerInterceptor) // Default Nest interceptor
     @Get('/:id')
     async findUser(@Param('id') id: string) {
         const user = await this.userService.findOne(parseInt(id));
-        if(!user){
+        if (!user || !user.id) {
             throw new NotFoundException(`User not found with id ${id}`);
         }
         return user;
@@ -49,7 +53,7 @@ export class UserController {
     @Get()
     async findAllUser(@Query('email') email: string) {
         const user = await this.userService.find(email);
-        if(!user){
+        if (!user) {
             throw new NotFoundException(`User not found with email id ${email}`);
         }
         return user

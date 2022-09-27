@@ -1,9 +1,5 @@
-import { Get, Controller } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  @Get()
-  root(): string {
-    return 'Hello World!';
-  }
 }
