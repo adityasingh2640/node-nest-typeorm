@@ -19,7 +19,7 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-"email":"test@test.com",
+"email":"test1@test1.com",
 "password":"12345"
 }
 
@@ -28,7 +28,7 @@ POST http://localhost:3000/auth/signin
 Content-Type: application/json
 
 {
-"email":"test@test.com",
+"email":"test1@test1.com",
 "password":"12345"
 }
 
@@ -53,4 +53,26 @@ Content-Type: application/json
 
 {
 "password":"12345"
+}
+
+### Sign-in for user
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+"price":2022,
+"make":"Mahindra",
+"model":"V3",
+"year":2022,
+"mileage":21,
+"latitude":"12.2",
+"longitude":"12.2"
+}
+
+### Update user
+PATCH  http://localhost:3000/reports/2
+Content-Type: application/json
+
+{
+"approved":false
 }
