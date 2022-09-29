@@ -14,15 +14,15 @@ export class Reports {
     @Column()
     year:number;
     @Column()
-    longitude:string
+    longitude:number
     @Column()
-    latitude:string
+    latitude:number
     @Column()
     mileage:number
     @Column({default:false})
     approved:boolean
 
     @ManyToOne(()=> User ,(user)=>user.reports)
-    @JoinColumn({name:'user_id'}) // This is how we can change the column name in report table
+    //@JoinColumn({name:'user_id'}) // This is how we can change the column name in report table
     user:User;
 }

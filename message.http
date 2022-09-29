@@ -69,10 +69,13 @@ Content-Type: application/json
 "longitude":"12.2"
 }
 
-### Update user
+### Approve Report
 PATCH  http://localhost:3000/reports/2
 Content-Type: application/json
 
 {
-"approved":false
+"approved":true
 }
+
+### Get Estimate
+GET http://localhost:3000/reports?make=Ford&model=V3&latitude=12&longitude=12&mileage=23&year=2022

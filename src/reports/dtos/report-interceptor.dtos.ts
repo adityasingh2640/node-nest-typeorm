@@ -13,13 +13,15 @@ export class ReportDto{
     @Expose()
     year:number;
     @Expose()
-    longitude:string
+    longitude:number
     @Expose()
-    latitude:string
+    latitude:number
     @Expose()
     mileage:number
+    @Expose()
+    approved:boolean
 
     @Transform(({obj})=>obj.user.id) // take the report ob
     @Expose()
-    user_id:number
+    userId:number
 }

@@ -46,3 +46,6 @@
     these decorator don't work with DI container so , class Instance can be access or injected, In order to get a 
     decorator we need to create a custom interceptor (current-user.interceptor.ts) and inside the context of custom interceptor we can pass or attach
     class instance
+9. Code Flow
+                                 ↑ Interceptor  ⇩  
+    Request->Middlewares->Guard->RequestHandler->Response
