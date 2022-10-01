@@ -55,7 +55,7 @@ Content-Type: application/json
 "password":"12345"
 }
 
-### Sign-in for user
+### Create report by Sign-in for user
 POST http://localhost:3000/reports
 Content-Type: application/json
 
@@ -65,8 +65,8 @@ Content-Type: application/json
 "model":"V3",
 "year":2022,
 "mileage":21,
-"latitude":"12.2",
-"longitude":"12.2"
+"latitude":12,
+"longitude":12
 }
 
 ### Approve Report

@@ -20,12 +20,10 @@ export class CreateReportDTO{
     year:number;
 
     @IsNotEmpty()
-    @IsString()
     @IsLongitude()
     longitude:number;
 
     @IsNotEmpty()
-    @IsString()
     @IsLatitude()
     latitude:number;
 

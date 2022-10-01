@@ -15,6 +15,16 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
                 });
                 break;
             case 'postgres':
+                Object.assign(dbConfigObj,{
+                    type:'postgres',
+                    port:process.env.DB_PORT,
+                    host:parseInt(process.env.DB_HOST),
+                    schema:process.env.DB_SCHEMA,
+                    username:process.env.DB_USERNAME,
+                    password:process.env.DB_PASSWORD,
+                    databasename:process.env.DB_NAME,
+                    autoLoadEntities: true
+                })
                 break;
             default:
                 throw new Error('DB_TYPE is not initalized !');

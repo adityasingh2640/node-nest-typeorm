@@ -21,6 +21,20 @@ switch (process.env.NODE_ENV) {
         });
         break;
     case 'production':
+        // Create schema schema_name
+        // Set search_path to blogs;
+
+        Object.assign(dbConfigObj, {
+            type: 'postgres',
+            port: 5432,
+            host: 'localhost',
+            schema: 'blogs',
+            username: 'postgres',
+            password: 'postgres',
+            databasename: 'postgres',
+            entities: ['**/*.entity.ts'],
+            migrations: [__dirname + '/migrations/*.ts']
+        })
         break;
     default:
         throw new Error('NODE_ENV is not initalized !');
