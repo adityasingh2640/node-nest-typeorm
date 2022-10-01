@@ -17,6 +17,7 @@ const cookieSession = require('cookie-session');
  * ConfigService: Used to apply specific properties from choose .env file
  */
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmConfigService } from './config/typeorm.config';
 
 @Module({
   imports: [
@@ -25,16 +26,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DBNAME'),
-          entities: [User, Reports],
-          synchronize: true
-        }
-      }
-    }), UserModule, ReportsModule],
+      useClass:TypeOrmConfigService
+    })
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //       type: 'sqlite',
+    //       database: config.get<string>('DBNAME'),
+    //       entities: [User, Reports],
+    //       synchronize: true
+    //     }
+    //   }
+    // })
+    , UserModule, ReportsModule],
   controllers: [AppController],
   providers: [{
     provide: APP_PIPE,
@@ -45,7 +49,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 })
 
 export class ApplicationModule {
+  constructor(private config:ConfigService){}
   configure(consume: MiddlewareConsumer) {
-    consume.apply(cookieSession({ keys: ['use_for_encrypting_cookie'] })).forRoutes('*');
+    consume.apply(cookieSession({ keys: [this.config.get('COOKIE_KEY')] })).forRoutes('*');
   }
 }
