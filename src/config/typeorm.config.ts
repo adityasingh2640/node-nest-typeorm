@@ -9,7 +9,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
             case 'sqlite':
                 Object.assign(dbConfigObj, {
                     type: process.env.DB_TYPE,
-                    synchronize: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? false : false,
+                    synchronize: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? false : true,
                     database: process.env.DB_NAME,
                     autoLoadEntities: true
                 });

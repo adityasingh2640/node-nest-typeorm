@@ -23,22 +23,11 @@ import { TypeOrmConfigService } from './config/typeorm.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`
+      envFilePath: `.env`
     }),
     TypeOrmModule.forRootAsync({
-      useClass:TypeOrmConfigService
-    })
-    //   inject: [ConfigService],
-    //   useFactory: (config: ConfigService) => {
-    //     return {
-    //       type: 'sqlite',
-    //       database: config.get<string>('DBNAME'),
-    //       entities: [User, Reports],
-    //       synchronize: true
-    //     }
-    //   }
-    // })
-    , UserModule, ReportsModule],
+      useClass: TypeOrmConfigService
+    }), UserModule, ReportsModule],
   controllers: [AppController],
   providers: [{
     provide: APP_PIPE,
@@ -49,7 +38,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
 })
 
 export class ApplicationModule {
-  constructor(private config:ConfigService){}
+  constructor(private config: ConfigService) { }
   configure(consume: MiddlewareConsumer) {
     consume.apply(cookieSession({ keys: [this.config.get('COOKIE_KEY')] })).forRoutes('*');
   }
